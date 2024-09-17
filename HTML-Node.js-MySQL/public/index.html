@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Backend from Button using Axios (async/await)</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Include Axios CDN -->
+</head>
+<body>
+    <h1>Click the button to get data from the backend</h1>
+    <button id="getDataBtn">Get Data</button>
+    <button id="postDataBtn">Send Data</button> <!-- New button for POST request -->
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("getDataBtn").addEventListener("click", async () => {
+            try {
+                // Make the GET request using async/await
+                const response = await axios.get('http://localhost:3000/getData');
+                
+                // Convert the JSON data to a string and display it
+                document.getElementById("result").innerHTML = JSON.stringify(response.data.message);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        document.getElementById("postDataBtn").addEventListener("click", async () => {
+            try {
+                // Data to be sent in the POST request body
+                const data = {
+                    name: 'John Doe',
+                    email: 'john.doe@example.com'
+                };
+
+                // Make the POST request using async/await
+                const response = await axios.post('http://localhost:3000/postData', data, {
+                    headers: {
+                        'Content-Type': 'application/json' // Ensure correct content type
+                    }
+                });
+
+                // Display the response data
+                document.getElementById("result").innerHTML = JSON.stringify(response.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
